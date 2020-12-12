@@ -1,6 +1,5 @@
 import firebase from "firebase/app";
 import "firebase/auth";
-import { customErrorHandler } from "../helper/customErrorHandler";
 //firestore
 
 const devConfig = {
@@ -19,11 +18,11 @@ const config = process.env.NODE_ENV === "development" ? devConfig : prodConfig;
 
 class Firebase {
   constructor() {
-    if (firebase.apps.length === 0) {
-      firebase.initializeApp(config);
-    }
+    //TODO: add initialize check
+    firebase.initializeApp(config);
     this.firebaseAuth = firebase.auth();
   }
+
   // register registerWithEmailAndPassword
   async register(displayName, email, password) {
     try {
@@ -44,12 +43,8 @@ class Firebase {
   }
 
   // login  signInWithEmailAndPassword
-  async signIn(email, password) {
-    try {
-      await this.firebaseAuth.signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      return customErrorHandler(error);
-    }
+  signIn(email, password) {
+    this.firebaseAuth.signInWithEmailAndPassword(email, password);
   }
 
   // logout signOut
@@ -58,14 +53,6 @@ class Firebase {
   }
 
   // forgot password sendPasswordResetEmail
-  async forgotPassword(email) {
-    try {
-      await this.firebaseAuth.sendPasswordResetEmail(email);
-      window.location.href = "/";
-    } catch (error) {
-      return customErrorHandler(error);
-    }
-  }
 }
 
 export default new Firebase();
