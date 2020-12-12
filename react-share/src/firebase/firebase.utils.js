@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import { customErrorHandler } from "../helper/customErrorHandler";
 //firestore
 
 const devConfig = {
@@ -18,21 +19,53 @@ const config = process.env.NODE_ENV === "development" ? devConfig : prodConfig;
 
 class Firebase {
   constructor() {
-    firebase.initializeApp(config);
-    console.log("firebase", firebase);
+    if (firebase.apps.length === 0) {
+      firebase.initializeApp(config);
+    }
     this.firebaseAuth = firebase.auth();
-    console.log("this.firebaseAuth", this.firebaseAuth);
+  }
+  // register registerWithEmailAndPassword
+  async register(displayName, email, password) {
+    try {
+      await this.firebaseAuth.createUserWithEmailAndPassword(email, password);
+      this.firebaseAuth.currentUser.updateProfile({
+        displayName,
+      });
+    } catch (err) {
+      console.log("F. Error:", err);
+    }
+  }
+
+  // sign in/up with google GoogleAuthProvider
+  useGoogleProvider() {
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    googleProvider.setCustomParameters({ prompt: "select_account" });
+    this.firebaseAuth.signInWithPopup(googleProvider);
   }
 
   // login  signInWithEmailAndPassword
+  async signIn(email, password) {
+    try {
+      await this.firebaseAuth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      return customErrorHandler(error);
+    }
+  }
 
   // logout signOut
+  signOut() {
+    this.firebaseAuth.signOut();
+  }
 
   // forgot password sendPasswordResetEmail
-
-  // register registerWithEmailAndPassword
-
-  // sign in with google GoogleAuthProvider
+  async forgotPassword(email) {
+    try {
+      await this.firebaseAuth.sendPasswordResetEmail(email);
+      window.location.href = "/";
+    } catch (error) {
+      return customErrorHandler(error);
+    }
+  }
 }
 
 export default new Firebase();
