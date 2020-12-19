@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import { customErrorHandler } from "../helper/customErrorHandler";
 //firestore
 
 const devConfig = {
@@ -43,8 +44,12 @@ class Firebase {
   }
 
   // login  signInWithEmailAndPassword
-  signIn(email, password) {
-    this.firebaseAuth.signInWithEmailAndPassword(email, password);
+  async signIn(email, password) {
+    try {
+      await this.firebaseAuth.signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      return customErrorHandler(error);
+    }
   }
 
   // logout signOut
@@ -53,6 +58,14 @@ class Firebase {
   }
 
   // forgot password sendPasswordResetEmail
+  async forgotPassword(email) {
+    try {
+      await this.firebaseAuth.sendPasswordResetEmail(email);
+      window.location.href = "/";
+    } catch (error) {
+      return customErrorHandler(error);
+    }
+  }
 }
 
 export default new Firebase();
