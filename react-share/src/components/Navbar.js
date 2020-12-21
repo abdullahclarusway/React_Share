@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useMemo } from "react";
+import React, { useContext, useCallback } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
@@ -15,12 +15,18 @@ import firebase from "../firebase/firebase.utils";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    position: "sticky",
+    top: 0,
+    zIndex: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
   title: {
     flexGrow: 1,
+  },
+  accountCircle: {
+    marginLeft: 5,
   },
 }));
 
@@ -29,7 +35,6 @@ export default function Navbar() {
   const classes = useStyles();
   const history = useHistory();
 
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleMenu = (event) => {
@@ -46,7 +51,16 @@ export default function Navbar() {
 
   const handleSignOut = useCallback(() => {
     firebase.signOut();
+    history.push("/login");
   }, []);
+
+  const handleLoginClick = () => {
+    history.push("/login");
+  };
+
+  const handleRegisterClick = () => {
+    history.push("/register");
+  };
 
   return (
     <div className={classes.root}>
@@ -74,7 +88,7 @@ export default function Navbar() {
                 color="inherit"
               >
                 {currentUser?.displayName}
-                <AccountCircle />
+                <AccountCircle className={classes.accountCircle} />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -98,20 +112,8 @@ export default function Navbar() {
             </div>
           ) : (
             <>
-              <MenuItem
-                onClick={() => {
-                  window.location.href = "/login";
-                }}
-              >
-                Sign in
-              </MenuItem>
-              <MenuItem
-                onClick={() => {
-                  window.location.href = "/register";
-                }}
-              >
-                Sign up
-              </MenuItem>
+              <MenuItem onClick={handleLoginClick}>Sign in</MenuItem>
+              <MenuItem onClick={handleRegisterClick}>Sign up</MenuItem>
             </>
           )}
         </Toolbar>
