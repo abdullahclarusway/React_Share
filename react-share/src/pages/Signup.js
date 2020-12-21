@@ -115,13 +115,10 @@ function Signup() {
             >
               SignUp with Google
             </Button>
-            <p style={{ fontSize: "1rem" }}>
+            <p>
               Already have an account? <a href="/login"> Login.</a>
             </p>
           </Grid>
-          {/* 
-            //TODO: Add sign in text & links
-            */}
         </Grid>
       </form>
     </Container>
