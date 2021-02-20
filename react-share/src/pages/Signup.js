@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -36,13 +37,14 @@ const stylesFunc = makeStyles((theme) => ({
     margin: "1rem",
   },
   login: {
-    textDecoration: 'none',
-    fontWeight: '600',
-    paddingLeft : '0.5rem'
-  }  
+    textDecoration: "none",
+    fontWeight: "600",
+    paddingLeft: "0.5rem",
+  },
 }));
 
 function Signup() {
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       displayName: "",
@@ -53,6 +55,7 @@ function Signup() {
     onSubmit: (values) => {
       // alert(JSON.stringify(values, null, 2));
       firebase.register(values.displayName, values.email, values.password);
+      history.push("/login");
     },
   });
   const signupStyles = stylesFunc();
@@ -125,7 +128,11 @@ function Signup() {
         </Grid>
       </form>
       <p>
-        Already have an account? <a className={signupStyles.login}  href="/login"> Login.</a>
+        Already have an account?{" "}
+        <a className={signupStyles.login} href="/login">
+          {" "}
+          Login.
+        </a>
       </p>
     </Container>
   );
