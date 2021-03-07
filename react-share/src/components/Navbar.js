@@ -76,7 +76,7 @@ export default function Navbar() {
             <HomeIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            React Share
+            Lighthouse React Share
           </Typography>
           {currentUser ? (
             <div>
