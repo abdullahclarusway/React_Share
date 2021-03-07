@@ -9,7 +9,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary">
       {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
-        React Share
+        Lighthouse React Share
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -21,8 +21,7 @@ const useStyles = makeStyles((theme) => ({
   main: {
     marginTop: theme.spacing(8),
     marginBottom: theme.spacing(2),
-    textAlign:'center'
-
+    textAlign: "center",
   },
   footer: {
     padding: theme.spacing(3, 2),
@@ -38,7 +37,7 @@ export default function StickyFooter() {
   const classes = useStyles();
 
   return (
-    <div id="footer" className = {classes.main}>
+    <div id="footer" className={classes.main}>
       <footer className={classes.footer}>
         <Container maxWidth="sm">
           <Typography variant="body1">Address Virginia, USA.</Typography>
