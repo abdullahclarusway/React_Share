@@ -13,14 +13,14 @@ const devConfig = {
   appId: process.env.REACT_APP_ID,
 };
 
-const prodConfig = {};
+// const prodConfig = {};
 
-const config = process.env.NODE_ENV === "development" ? devConfig : prodConfig;
+// const config = process.env.NODE_ENV === "development" ? devConfig : prodConfig;
 
 class Firebase {
   constructor() {
     if (firebase.apps.length === 0) {
-      firebase.initializeApp(config);
+      firebase.initializeApp(devConfig);
     }
     this.firebaseAuth = firebase.auth();
   }
